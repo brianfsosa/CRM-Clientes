@@ -1,11 +1,15 @@
 import React from 'react'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
+import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
+import Alerta from './Alerta'
 
 function Formulario() {
      
   const nuevoClienteSchema = Yup.object().shape({
-    nombre:'',
+    nombre:Yup.string()
+              .min(3,'El Nombre es muy corto')
+              .max(20,'El Nombre es muy largo')
+              .required('El nombre del Cliente es Obligatorio'),
     empresa:'',
     email:'',
     telefono:'',
@@ -32,7 +36,8 @@ function Formulario() {
             }}
             validationSchema={nuevoClienteSchema}
         >
-            {({errors}) => {
+            {({errors, touched}) => {
+                console.log(touched)
                 return(
             <Form
                 className='mt-10'
@@ -49,7 +54,9 @@ function Formulario() {
                         placeholder='Nombre del Cliente'
                         name='nombre'
                     />
-                    <ErrorMessage name='nombre'/>
+
+                    {errors.nombre && touched.nombre ? (<Alerta>{errors.nombre}</Alerta>
+                        ): null}
                 </div>
                 <div className='mb-4'>
                     <label 
@@ -63,6 +70,9 @@ function Formulario() {
                         placeholder='Empresa del Cliente'
                         name='empresa'
                     />
+
+                    
+
                 </div>
                 <div className='mb-4'>
                     <label 
