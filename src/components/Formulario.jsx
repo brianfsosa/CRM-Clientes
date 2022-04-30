@@ -17,7 +17,7 @@ function Formulario() {
   })
 
   const handleSubmit = (valores) => {
-        
+        console.log(valores)
   }  
 
   return (
