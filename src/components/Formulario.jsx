@@ -1,23 +1,50 @@
 import React from 'react'
 import { Formik, Form, Field } from 'formik'
+import { useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
 import Alerta from './Alerta'
 
 function Formulario() {
+
+  const navigate = useNavigate()  
      
   const nuevoClienteSchema = Yup.object().shape({
     nombre:Yup.string()
               .min(3,'El Nombre es muy corto')
               .max(20,'El Nombre es muy largo')
               .required('El nombre del Cliente es Obligatorio'),
-    empresa:'',
-    email:'',
-    telefono:'',
+    empresa:Yup.string()
+               .required('el nombre de la empresa es obligatorio'),
+    email:Yup.string()
+                .email('Email no válido')
+                .required('el email es obligatorio'),
+    telefono:Yup.number()
+                .positive('Número no válido')
+                .integer('Número no válido')
+                .typeError('Número no es válido'),
     notas:''
   })
 
-  const handleSubmit = (valores) => {
-        console.log(valores)
+  const handleSubmit = async (valores) => {
+        try {
+            const url = 'http://localhost:4000/clientes'
+
+            const respuesta = await fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(valores),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            console.log(JSON.stringify(valores))
+            console.log(respuesta)
+            const resultado = await respuesta.json()
+            console.log(resultado)
+
+            navigate('/clientes')
+        } catch (error) {
+            console.log(error)
+        }
   }  
 
   return (
@@ -31,8 +58,9 @@ function Formulario() {
                 telefono:'',
                 notas:''
             }}
-            onSubmit={ (values) => {
+            onSubmit={ async (values, {resetForm}) => {
                 handleSubmit(values)
+                resetForm()
             }}
             validationSchema={nuevoClienteSchema}
         >
@@ -70,7 +98,8 @@ function Formulario() {
                         placeholder='Empresa del Cliente'
                         name='empresa'
                     />
-
+                    {errors.empresa && touched.empresa ? (<Alerta>{errors.empresa}</Alerta>
+                        ): null}
                     
 
                 </div>
@@ -86,6 +115,8 @@ function Formulario() {
                         placeholder='Email del Cliente'
                         name='email'
                     />
+                    {errors.email && touched.email ? (<Alerta>{errors.email}</Alerta>
+                        ): null}
                 </div>
                 <div className='mb-4'>
                     <label 
@@ -99,6 +130,8 @@ function Formulario() {
                         placeholder='Teléfono del Cliente'
                         name='telefono'
                     />
+                    {errors.telefono && touched.telefono ? (<Alerta>{errors.telefono}</Alerta>
+                        ): null}
                 </div>
                 <div className='mb-4'>
                     <label 
