@@ -9,7 +9,6 @@ function VerCliente () {
     const { id } = useParams()
 
     useEffect(()=>{
-        
         const obtenerClienteAPI = async () => {
             try {
                 const url = `http://localhost:4000/clientes/${id}`
@@ -19,13 +18,11 @@ function VerCliente () {
             } catch (error) {
                 console.log(error)
             }
-            
-                setCargando(!cargando)
-            
-            
+            setCargando(!cargando)
         }
         obtenerClienteAPI()
     },[])
+
   return (
     cargando ? <Spinner /> : Object.keys(cliente).length === 0 ? <p>No hay resultados</p> : (
     <div>

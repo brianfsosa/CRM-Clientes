@@ -27,9 +27,13 @@ function EditarCliente() {
         <h1 className='font-black text-4xl text-blue-900'>Editar Cliente</h1>
         <p className='mt-3'>Modifica datos de un cliente</p>
 
-        <Formulario 
+        {cliente?.nombre ? (
+          <Formulario 
           cliente={cliente}
+          cargando={cargando}
         />
+        ): <p>Cliente no válido</p>}
+        
     </>
   )
 }

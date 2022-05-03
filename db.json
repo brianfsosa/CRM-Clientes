@@ -9,14 +9,6 @@
       "id": 1
     },
     {
-      "nombre": "Brian",
-      "empresa": "Dex Dev",
-      "email": "brianfsosa@gmail.com",
-      "telefono": "03548573202",
-      "notas": "Nuevo cliente",
-      "id": 2
-    },
-    {
       "nombre": "Kira",
       "empresa": "Kira cat",
       "email": "Kira@gmail.com",
