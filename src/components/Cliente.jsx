@@ -1,6 +1,7 @@
-import React from 'react'
+import {useNavigate} from 'react-router-dom'
 
 function Cliente({cliente}) {
+    const navigate = useNavigate()
 
     const {
         nombre,
@@ -22,6 +23,7 @@ function Cliente({cliente}) {
             <button
                 className='bg-yellow-500 hover:bg-yellow-600 block w-full text-white p-2 uppercase font-bold text-xs mt-3'
                 type='button'
+                onClick={() => navigate(`/clientes/${id}`)}
             >Ver</button>
 
             <button
